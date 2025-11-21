@@ -34,10 +34,12 @@ export default function CreateCategory() {
           },
         }
       );
-      
+
       setFormData({ name: "", description: "" });
-      setSuccessMessage("Kategori berhasil ditambahkan.");
-      navigate("/category");
+      if (response.status === 201) {
+        setSuccessMessage("Kategori berhasil ditambahkan.");
+        navigate("/category");
+      }
     } catch (error: any) {
       console.error("Error creating category:", error);
     }
