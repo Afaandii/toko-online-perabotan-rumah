@@ -93,7 +93,7 @@ export default function Category() {
           )}
 
           {loading ? (
-            <p className="text-gray-300">Loading...</p>
+            <p className="text-gray-300 text-center">Loading Data...</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-600">

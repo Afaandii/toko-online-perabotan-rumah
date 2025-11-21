@@ -47,22 +47,22 @@ export default function App() {
             {/* Jenis Page */}
             <Route path="/type" element={<Jenis />} />
             <Route path="/create-type" element={<CreateJenis />} />
-            <Route path="/edit-type" element={<EditJenis />} />
+            <Route path="/edit-type/:id" element={<EditJenis />} />
 
             {/* Merk Page */}
             <Route path="/brand" element={<Merk />} />
             <Route path="/create-brand" element={<CreateMerk />} />
-            <Route path="/edit-brand" element={<EditMerk />} />
+            <Route path="/edit-brand/:id" element={<EditMerk />} />
             
             {/* Product Page */}
             <Route path="/product" element={<Produk />} />  
             <Route path="/create-product" element={<CreateProduct />} />
-            <Route path="/edit-product" element={<EditProduct />} />
+            <Route path="/edit-product/:id" element={<EditProduct />} />
 
             {/* Product Image Page */}
             <Route path="/image-product" element={<ProdukImage />} />  
             <Route path="/create-image-product" element={<CreateProdukImage />} />
-            <Route path="/edit-image-product" element={<EditProdukImage />} />
+            <Route path="/edit-image-product/:id" element={<EditProdukImage />} />
           </Route>
 
           {/* Fallback Route If Not Found Page */}

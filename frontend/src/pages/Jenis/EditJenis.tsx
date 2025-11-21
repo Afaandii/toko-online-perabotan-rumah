@@ -1,34 +1,74 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function EditJenis() {
-  // State untuk menyimpan data form (kosong, seperti permintaan Anda)
+  const { id } = useParams(); 
+  const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const [formData, setFormData] = useState({
-    type_name: "", // Kosongkan, biarkan user mengisi atau isi dari API nanti
-    description: "", // Kosongkan, biarkan user mengisi atau isi dari API nanti
+    type_name: "", 
+    description: "",
   });
+
+  const fetchJenis = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(`http://localhost:8000/api/v1/type-product`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Cari kategori sesuai ID
+      const typ = res.data.data.find((c: any) => c.id == id);
+      if (typ) {
+        setFormData({
+          type_name: typ.type_name,
+          description: typ.description ?? "",
+        });
+      }
+    } catch (err) {
+      console.error("Error fetching category:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchJenis();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.put(
+        `http://localhost:8000/api/v1/update-type-product/${id}`,
+        {
+          type_name: formData.type_name,
+          description: formData.description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        setSuccessMessage("Kategori berhasil diperbarui.");
+        navigate("/type");
+      }
+    } catch (error) {
+      console.error("Error updating category:", error);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      type_name: value,
-      description: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Logika submit data ke API atau state
-    console.log("Submitting:", formData);
-    // Contoh: setelah submit, redirect atau reset form
-    // history.push("/category"); // Jika menggunakan react-router v5
-    // atau gunakan navigate dari react-router-dom v6
   };
 
   return (
@@ -42,6 +82,17 @@ export default function EditJenis() {
 
       {/* Form Card */}
       <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+        {successMessage && (
+            <div className="mb-4 p-3 bg-green-600 text-white rounded-md flex items-center justify-between">
+              <span>{successMessage}</span>
+              <button
+                onClick={() => setSuccessMessage(null)}
+                className="ml-2 text-white hover:text-gray-200"
+              >
+                &times;
+              </button>
+            </div>
+          )}
         <div className="p-6">
           <form onSubmit={handleSubmit}>
             {/* Nama Kategori Field */}
@@ -57,29 +108,28 @@ export default function EditJenis() {
                 id="name"
                 name="name"
                 value={formData.type_name}
-                onChange={handleNameChange} // Gunakan fungsi khusus untuk update slug
+                onChange={handleChange}
                 placeholder="Masukan nama kategori"
                 className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
 
-            {/* Slug Field (Readonly) */}
+            {/* description Field (Readonly) */}
             <div className="mb-6">
               <label
-                htmlFor="slug"
+                htmlFor="description"
                 className="block text-sm font-medium text-white mb-1"
               >
                 Deskripsi
               </label>
               <input
                 type="text"
-                id="slug"
-                name="slug"
+                id="description"
+                name="description"
                 value={formData.description}
-                onChange={handleChange} // Tetap bisa diubah jika diperlukan, tapi biasanya readonly
-                placeholder="Masukan slug"
-                readOnly // Tambahkan atribut ini untuk membuat input readonly
+                onChange={handleChange}
+                placeholder="Masukan description"
                 className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-not-allowed"
               />
             </div>

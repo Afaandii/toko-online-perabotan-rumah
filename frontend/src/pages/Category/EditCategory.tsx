@@ -57,8 +57,10 @@ export default function EditCategory() {
         }
       );
 
-      setSuccessMessage("Kategori berhasil diperbarui.");
-      navigate("/category");
+      if (response.status === 200) {
+        setSuccessMessage("Kategori berhasil diperbarui.");
+        navigate("/category");
+      }
     } catch (error) {
       console.error("Error updating category:", error);
     }

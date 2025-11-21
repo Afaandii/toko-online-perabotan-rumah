@@ -1,43 +1,68 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import axios from "axios";
 
-const dummyJenis = [
-  { id: 1, type_name: "Berita Terkini", description: "berita-terkini" },
-  { id: 2, type_name: "Berita Trending", description: "berita-trending" },
-  { id: 3, type_name: "Berita Panas", description: "berita-panas" },
-  { id: 4, type_name: "Topik Panas", description: "topik-panas" },
-  { id: 5, type_name: "Dalam Negeri", description: "dalam-negeri" },
-];
+type Type = {
+  id: number;
+  type_name: string;
+  description: string | null;
+};
 
 export default function Jenis() {
-  const [jenis, setJenis] = useState(dummyJenis);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [type, setType] = useState<Type[]>([]);
+   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+   const [loading, setLoading] = useState(true);
 
-  // Simulasi pesan sukses (ganti dengan logika Anda)
+ const fetchType = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get("http://localhost:8000/api/v1/type-product", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.data.status === "success") {
+        setType(res.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching type product:", error);
+    }
+
+    setLoading(false);
+  };
+
   useEffect(() => {
-    // Contoh: jika ada pesan sukses dari route sebelumnya
-    // const msg = getSuccessMessageFromURL(); // Implementasi Anda
-    // if (msg) setSuccessMessage(msg);
+    fetchType();
   }, []);
 
-  // Fungsi untuk menghapus kategori (simulasi)
-  const handleDelete = (id: number) => {
-    if (window.confirm("Anda Yakin Mau Hapus Data?")) {
-      setJenis(jenis.filter(cat => cat.id !== id));
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("Anda yakin ingin menghapus jenis product ini?")) return;
+
+    try {
+      await axios.delete(`http://localhost:8000/api/v1/delete-type-product/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      setType(prev => prev.filter(type => type.id !== id));
       setSuccessMessage("Kategori berhasil dihapus.");
-      // Tampilkan pesan sukses selama beberapa detik
+
       setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (err) {
+      console.error("Deleted failed:", err);
     }
   };
 
   return (
     <>
-      {/* Header Section */}
       <section className="mb-6">
         <div className="flex items-center justify-between p-3 rounded-t-lg">
           <h1 className="text-2xl font-bold text-white">Manage Tabel Jenis</h1>
-          {/* Tombol Tambah */}
+
           <Link
             to="/create-type"
             className="inline-flex items-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors duration-200"
@@ -47,16 +72,14 @@ export default function Jenis() {
         </div>
       </section>
 
-      {/* Card Container */}
       <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-        {/* Card Header */}
+
         <div className="px-4 py-3 bg-gray-700 border-b border-gray-600">
           <h3 className="text-lg font-semibold text-white">DataTable Kategori</h3>
         </div>
 
-        {/* Card Body - Table */}
         <div className="p-4">
-          {/* Pesan Sukses (Alert) */}
+          {/* Pesan Sukses */}
           {successMessage && (
             <div className="mb-4 p-3 bg-green-600 text-white rounded-md flex items-center justify-between">
               <span>{successMessage}</span>
@@ -69,7 +92,9 @@ export default function Jenis() {
             </div>
           )}
 
-          {/* Tabel */}
+          {loading ? (
+            <p className="text-gray-300 text-center">Loading Data...</p>
+          ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-600">
               <thead className="bg-gray-900">
@@ -101,7 +126,7 @@ export default function Jenis() {
                 </tr>
               </thead>
               <tbody className="bg-gray-800 divide-y divide-gray-600">
-                {jenis.map((jenis, index) => (
+                {type.map((jenis, index) => (
                   <tr key={jenis.id} className="hover:bg-gray-700">
                     <td className="px-4 py-3 whitespace-nowrap text-sm text-white">
                       {index + 1}
@@ -115,7 +140,7 @@ export default function Jenis() {
                     <td className="px-4 py-3 whitespace-nowrap text-sm">
                       {/* Tombol Edit */}
                       <Link
-                        to={`/edit-type`}
+                        to={`/edit-type/${jenis.id}`}
                         className="inline-flex items-center px-4 py-3 bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-medium rounded mr-2 transition-colors duration-200"
                       >
                         <FaEdit className="text-lg"/>
@@ -133,6 +158,7 @@ export default function Jenis() {
               </tbody>
             </table>
           </div>
+          )}
         </div>
       </div>
     </>
