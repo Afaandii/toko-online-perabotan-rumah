@@ -28,6 +28,7 @@ import UserProfiles from "./pages/Users/UserProfiles";
 import Users from "./pages/Users/User";
 import EditUser from "./pages/Users/EditUser";
 import HomeToko from "./pages/HomeToko";
+import CardDetailProduct from "./components/ui-toko/CardDetailProduct";
 
 export default function App() {
   return (
@@ -86,6 +87,7 @@ export default function App() {
           
           <Route>
             <Route index path="/" element={ <HomeToko />} />
+            <Route path="/detail-produk" element={ <CardDetailProduct />} />
           </Route>
 
           {/* Fallback Route If Not Found Page */}
