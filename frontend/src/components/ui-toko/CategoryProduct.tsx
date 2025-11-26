@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 import {
   FaTag,
   FaWatchmanMonitoring,
@@ -12,8 +12,8 @@ import {
   FaUser,
   FaBaby,
   FaSpa,
-} from 'react-icons/fa';
-import type { JSX } from 'react/jsx-runtime';
+} from "react-icons/fa";
+import type { JSX } from "react/jsx-runtime";
 
 interface Category {
   id: number;
@@ -27,62 +27,62 @@ export default function CategoryProduct() {
   const categories: Category[] = [
     {
       id: 1,
-      name: 'Diskon s.d 700rb',
+      name: "Diskon s.d 700rb",
       icon: <FaTag />,
     },
     {
       id: 2,
-      name: 'Watch series 11',
+      name: "Watch series 11",
       icon: <FaWatchmanMonitoring />,
     },
     {
       id: 3,
-      name: 'Tagihan & Isi ulang',
+      name: "Tagihan & Isi ulang",
       icon: <FaFileInvoiceDollar />,
     },
     {
       id: 4,
-      name: 'Bliblimart',
+      name: "Bliblimart",
       icon: <FaShoppingCart />,
     },
     {
       id: 5,
-      name: 'Gadget & Elektronik',
+      name: "Gadget & Elektronik",
       icon: <FaLaptop />,
     },
     {
       id: 6,
-      name: 'Sport & Wellness',
+      name: "Sport & Wellness",
       icon: <FaFutbol />,
     },
     {
       id: 7,
-      name: 'Komisi 20%',
+      name: "Komisi 20%",
       icon: <FaStore />,
     },
     {
       id: 8,
-      name: 'PayLater',
+      name: "PayLater",
       icon: <FaCreditCard />,
     },
     {
       id: 9,
-      name: 'Fashion Pria',
+      name: "Fashion Pria",
       icon: <FaTshirt />,
     },
     {
       id: 10,
-      name: 'Fashion Wanita',
+      name: "Fashion Wanita",
       icon: <FaUser />,
     },
     {
       id: 11,
-      name: 'Ibu & Bayi',
+      name: "Ibu & Bayi",
       icon: <FaBaby />,
     },
     {
       id: 12,
-      name: 'Kecantikan',
+      name: "Kecantikan",
       icon: <FaSpa />,
     },
   ];
@@ -92,25 +92,25 @@ export default function CategoryProduct() {
       {/* Scrollable Container */}
       <div
         ref={scrollContainerRef}
-        className="flex gap-2 overflow-x-auto scrollbar-hide"
+        className="flex overflow-x-auto scrollbar-hide"
         style={{
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          WebkitOverflowScrolling: "touch",
         }}
       >
         {categories.map((category) => (
           <div
             key={category.id}
-            className="shrink-0 w-32 sm:w-36 md:w-40 cursor-pointer flex flex-col items-center justify-center h-36 p-2"
+            className="shrink-0 w-24 sm:w-28 cursor-pointer flex flex-col items-center justify-center h-32 p-2"
           >
-            {/* Icon Container */}
-            <div className="bg-gray-100 rounded-2xl p-4 flex items-center justify-center w-24 h-20">
-              <div className="text-2xl">{category.icon}</div>
+            {/* Icon Container - Lingkaran Putih */}
+            <div className="bg-white rounded-full p-3 flex items-center justify-center w-16 h-16 shadow-sm border border-gray-200">
+              <div className="text-xl text-gray-700">{category.icon}</div>
             </div>
 
             {/* Category Name - Centered & Fixed Height */}
-            <p className="text-center text-sm font-medium text-gray-800 line-clamp-2 h-12 flex items-center justify-center px-1">
+            <p className="text-center text-xs font-medium text-gray-800 line-clamp-2 h-10 flex items-center justify-center px-1 mt-1">
               {category.name}
             </p>
           </div>
