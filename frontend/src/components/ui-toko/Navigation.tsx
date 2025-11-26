@@ -9,7 +9,7 @@ export default function Navigation() {
     <>
       {/* Desktop Navigation (fixed saat discroll) */}
       <div className="hidden md:block fixed top-0 left-0 right-0 z-50">
-        <div className="bg-green-600 text-white px-6 py-2">
+        <div className="bg-green-600 text-white px-6 py-1">
           <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
             <div className="flex items-center gap-6">
               <button className="flex items-center gap-2 hover:opacity-80">
@@ -24,7 +24,7 @@ export default function Navigation() {
           <div className="max-w-7xl mx-auto flex items-center gap-6">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <img src="/images/frontend-logos.png" alt="Goshop" className="w-36 h-10" />
+              <img src="/images/backend-logo.png" alt="Goshop" className="w-36 h-10" />
             </div>
 
             {/* Search Bar */}
@@ -64,11 +64,11 @@ export default function Navigation() {
           </div>
         </div>
 
-        <div className="bg-green-600 text-white px-6 py-2">
+        <div className="bg-green-600 text-white px-6 py-1">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-6">
               <button className="flex items-center gap-2 hover:opacity-80">
-                <FiGrid size={24} />
+                <FiGrid size={20} />
                 <span className="font-medium">Kategori</span>
               </button>
             </div>

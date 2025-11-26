@@ -1,0 +1,431 @@
+import { useEffect, useRef, useState } from "react";
+import {
+  FaStar,
+  FaHeart,
+  FaShareAlt,
+  FaCommentAlt,
+  FaChevronRight,
+  FaChevronLeft,
+} from "react-icons/fa";
+import Footer from "./Footer";
+import Navigation from "./Navigation";
+
+export default function CardDetailProduct() {
+  const thumbnailRef = useRef<HTMLDivElement>(null);
+  const [showPrevButton, setShowPrevButton] = useState(false);
+  const [showNextButton, setShowNextButton] = useState(true);
+
+  const updateScrollButtons = () => {
+    if (!thumbnailRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = thumbnailRef.current;
+    // Jika di awal (scrollLeft === 0), sembunyikan prev
+    setShowPrevButton(scrollLeft > 0);
+    // Jika di akhir (scrollLeft + clientWidth >= scrollWidth), sembunyikan next
+    setShowNextButton(scrollLeft + clientWidth < scrollWidth - 1);
+  };
+  useEffect(() => {
+    const ref = thumbnailRef.current;
+    if (!ref) return;
+
+    updateScrollButtons();
+
+    const handleScroll = () => {
+      updateScrollButtons();
+    };
+
+    ref.addEventListener("scroll", handleScroll);
+
+    return () => {
+      ref.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  const scrollThumbnails = (direction: "left" | "right") => {
+    if (thumbnailRef.current) {
+      const scrollAmount = 120;
+      thumbnailRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+      setTimeout(updateScrollButtons, 300);
+    }
+  };
+  // 📦 Data Dummy di dalam komponen
+  const productData = {
+    title:
+      "Bowin Activ Spray. Parfum Sepatu Kaos Kaki. Parfum Helm Jaket Anti Bau - NATURAL FRESH",
+    price: 15999,
+    rating: 4.9,
+    totalReviews: "11,5rb rating",
+    sold: "10 rb+",
+    stock: 1317,
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800",
+        alt: "Product 1",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=800",
+        alt: "Product 2",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1605408499391-6368c628ef42?w=800",
+        alt: "Product 3",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800",
+        alt: "Product 4",
+      },
+    ],
+    variants: [
+      { id: "natural", name: "NATURAL FRESH", icon: "🌿" },
+      { id: "coffee", name: "COFFEE MILK", icon: "☕" },
+      { id: "black", name: "BLACK ICE", icon: "❄️" },
+      { id: "laundry", name: "LAUNDRY FRESH", icon: "🧺" },
+      { id: "gelato", name: "GELATO ICECREAM", icon: "🍦" },
+    ],
+    selectedVariant: "natural",
+    condition: "Baru",
+    minOrder: 1,
+    category: "OTOMOTIF",
+    description:
+      "Tahukah anda bakteri merupakan penyebab utama timbulnya bau tidak sedap?",
+    features: [
+      "Teknologi baru, lebih cepat basmi bakteri penyebab bau",
+      "Tahan lebih lama; aroma segar dan nyaman",
+      "Bahan natural, aman untuk ibu hamil & bayi serta hewan peliharaan",
+      "Tidak berbentuk aerosol yang mudah meledak",
+    ],
+  };
+
+  // Destructure data
+  const {
+    title,
+    price,
+    rating,
+    totalReviews,
+    sold,
+    stock,
+    images,
+    variants,
+    selectedVariant,
+    condition,
+    minOrder,
+    category,
+    description,
+    features,
+  } = productData;
+
+  const [quantity, setQuantity] = useState(1);
+  const [activeVariant, setActiveVariant] = useState(
+    selectedVariant || variants[0]?.id
+  );
+  const [activeTab, setActiveTab] = useState("detail");
+  const [mainImage, setMainImage] = useState(images[0]?.url);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+  const handleQuantityChange = (type: "increment" | "decrement") => {
+    if (type === "increment" && quantity < stock) {
+      setQuantity(quantity + 1);
+    } else if (type === "decrement" && quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const formatPrice = (price: number) => {
+    return `Rp${price.toLocaleString("id-ID")}`;
+  };
+
+  return (
+    <>
+      <Navigation />
+      {/* Main Container */}
+      <div className="max-w-[1100px] mx-auto px-4 mt-32 mb-10 bg-gray-50">
+        <div className="flex flex-col lg:flex-row gap-4">
+          {/* Left Column - Product Images */}
+          <div className="w-[280px] sticky top-32 h-[calc(100vh-10rem)]">
+            <div className="bg-white rounded-lg overflow-hidden shadow-sm">
+              <div className="aspect-square relative bg-gray-100">
+                <img
+                  src={mainImage}
+                  alt={title}
+                  className="w-full h-full rounded-lg object-cover"
+                />
+              </div>
+
+              {/* Thumbnail Container with Pagination */}
+              <div className="relative p-2">
+                {/* Prev Button */}
+                {showPrevButton && (
+                  <button
+                    onClick={() => scrollThumbnails("left")}
+                    className="absolute -left-1 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-gray-50 rounded-full p-1.5 shadow-lg transition-colors border border-gray-200"
+                    aria-label="Previous image"
+                  >
+                    <FaChevronLeft size={16} className="text-gray-700" />
+                  </button>
+                )}
+                {/* Thumbnails Scrollable */}
+                <div
+                  ref={thumbnailRef}
+                  className="flex gap-2 overflow-x-auto scrollbar-hide"
+                  style={{
+                    scrollbarWidth: "none",
+                    msOverflowStyle: "none",
+                    WebkitOverflowScrolling: "touch",
+                  }}
+                >
+                  {images.map((img, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setMainImage(img.url)}
+                      className={`shrink-0 w-16 h-16 rounded border-2 overflow-hidden ${
+                        mainImage === img.url
+                          ? "border-green-500"
+                          : "border-gray-200"
+                      }`}
+                    >
+                      <img
+                        src={img.url}
+                        alt={img.alt}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+
+                {/* Next Button */}
+                {showNextButton && (
+                  <button
+                    onClick={() => scrollThumbnails("right")}
+                    className="absolute -right-1 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-gray-50 rounded-full p-1.5 shadow-lg transition-colors border border-gray-200"
+                    aria-label="Next image"
+                  >
+                    <FaChevronRight size={16} className="text-gray-700" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+          {/* Middle Column - Product Info */}
+          <div className="flex-1 space-y-4">
+            <div className="bg-white rounded-lg p-4 shadow-sm">
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">{title}</h1>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="flex items-center gap-1">
+                  <span className="text-sm">Terjual</span>
+                  <span className="font-semibold text-sm">{sold}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <FaStar className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  <span className="font-semibold text-sm">{rating}</span>
+                  <span className="text-gray-500 text-sm">
+                    ({totalReviews})
+                  </span>
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <div className="text-3xl font-bold text-gray-900">
+                  {formatPrice(price)}
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-semibold mb-3">
+                  Pilih aroma:{" "}
+                  <span className="font-normal text-gray-600">
+                    {variants.find((v) => v.id === activeVariant)?.name}
+                  </span>
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {variants.map((variant) => (
+                    <button
+                      key={variant.id}
+                      onClick={() => setActiveVariant(variant.id)}
+                      className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all flex items-center gap-2 ${
+                        activeVariant === variant.id
+                          ? "border-green-500 bg-green-50 text-green-700"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      {variant.icon && <span>{variant.icon}</span>}
+                      {variant.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t pt-4">
+                <div className="flex items-center justify-between mb-4">
+                  <button
+                    onClick={() => setActiveTab("detail")}
+                    className={`flex-1 pb-2 text-center font-medium border-b-2 transition-colors ${
+                      activeTab === "detail"
+                        ? "border-green-500 text-green-600"
+                        : "border-transparent text-gray-500"
+                    }`}
+                  >
+                    Detail Produk
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("info")}
+                    className={`flex-1 pb-2 text-center font-medium border-b-2 transition-colors ${
+                      activeTab === "info"
+                        ? "border-green-500 text-green-600"
+                        : "border-transparent text-gray-500"
+                    }`}
+                  >
+                    Info Penting
+                  </button>
+                </div>
+
+                {activeTab === "detail" && (
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Kondisi:</span>
+                      <span className="font-semibold">{condition}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Min. Pemesanan:</span>
+                      <span className="font-semibold">{minOrder} Buah</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Etalase:</span>
+                      <span className="font-semibold text-green-600">
+                        {category}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 pt-6 border-t">
+                <div
+                  className={`text-gray-700 ${
+                    !showFullDescription ? "line-clamp-4" : ""
+                  }`}
+                >
+                  <p className="mb-3">{description}</p>
+                  {features.length > 0 && (
+                    <div className="space-y-2">
+                      {features.map((feature, index) => (
+                        <p key={index} className="text-sm">
+                          • {feature}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <button
+                  onClick={() => setShowFullDescription(!showFullDescription)}
+                  className="text-green-600 font-medium text-sm mt-2 hover:underline"
+                >
+                  {showFullDescription
+                    ? "Lihat Lebih Sedikit"
+                    : "Lihat Selengkapnya"}
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* Right Column - Purchase Card */}
+          <div className="w-[300px] sticky top-32 h-[400px]">
+            <div className="bg-white rounded-xl p-5 shadow-sm h-full flex flex-col justify-between border border-gray-100">
+              {/* Variant Display */}
+              <div className="mb-4 flex items-center gap-3">
+                <div className="w-14 h-14 bg-green-50 rounded-lg flex items-center justify-center">
+                  <span className="text-xl">
+                    {variants.find((v) => v.id === activeVariant)?.icon || "🌿"}
+                  </span>
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900 text-base">
+                    {variants.find((v) => v.id === activeVariant)?.name ||
+                      "NATURAL FRESH"}
+                  </div>
+                </div>
+              </div>
+
+              {/* Quantity Selector */}
+              <div className="mb-5">
+                <label className="block text-xs text-gray-600 mb-1 font-medium">
+                  Atur jumlah dan catatan
+                </label>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center border-2 border-gray-200 rounded-lg">
+                    <button
+                      onClick={() => handleQuantityChange("decrement")}
+                      className="px-3 py-1.5 text-gray-600 hover:bg-gray-50 text-sm disabled:opacity-50"
+                      disabled={quantity <= 1}
+                    >
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      value={quantity}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value) || 1;
+                        if (val >= 1 && val <= stock) setQuantity(val);
+                      }}
+                      className="w-14 text-center text-sm border-0 focus:outline-none"
+                    />
+                    <button
+                      onClick={() => handleQuantityChange("increment")}
+                      className="px-3 py-1.5 text-gray-600 hover:bg-gray-50 text-sm disabled:opacity-50"
+                      disabled={quantity >= stock}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    Stok:{" "}
+                    <span className="font-semibold text-gray-900">{stock}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Subtotal */}
+              <div className="mb-5 pt-3 border-t">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 text-md">Subtotal</span>
+                  <span className="text-2xl font-bold text-gray-900">
+                    {formatPrice(price * quantity)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="space-y-3">
+                <button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold text-base py-2 rounded-xl transition-colors shadow-md">
+                  + Keranjang
+                </button>
+                <button className="w-full border-2 border-green-600 text-green-600 hover:bg-green-50 font-bold text-base py-2 rounded-xl transition-colors">
+                  Beli Langsung
+                </button>
+              </div>
+
+              {/* Chat / Wishlist / Share */}
+              <div className="pt-4 border-t mt-auto">
+                <div className="flex gap-4">
+                  <button className="flex items-center gap-1 text-gray-600 hover:text-gray-900 text-xs">
+                    <FaCommentAlt className="w-4 h-4" />
+                    <span>Chat</span>
+                  </button>
+                  <button className="flex items-center gap-1 text-gray-600 hover:text-gray-900 text-xs">
+                    <FaHeart className="w-4 h-4" />
+                    <span>Wishlist</span>
+                  </button>
+                  <button className="flex items-center gap-1 text-gray-600 hover:text-gray-900 text-xs">
+                    <FaShareAlt className="w-4 h-4" />
+                    <span>Share</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* footer */}
+      <Footer />
+    </>
+  );
+}
