@@ -66,7 +66,7 @@ export default function CardDetailProduct() {
   const productData = {
     title:
       "Bowin Activ Spray. Parfum Sepatu Kaos Kaki. Parfum Helm Jaket Anti Bau - NATURAL FRESH",
-    price: 15999,
+    price: 16000,
     rating: 4.9,
     totalReviews: "11,5rb rating",
     sold: "10 rb+",
@@ -152,11 +152,11 @@ export default function CardDetailProduct() {
       {/* navigasi */}
       <Navigation />
       <div className="min-h-screen bg-gray-50">
-        <div className="max-w-[1100px] mx-auto px-2 sm:px-4 mt-4 sm:mt-6 lg:mt-32 mb-10">
+        <div className="max-w-[1100px] mx-auto px-2 sm:px-4 mt-20 sm:mt-6 lg:mt-32 mb-10">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Left Column - Product Images */}
             <div className="w-full lg:w-[280px] lg:sticky lg:top-32 lg:h-[calc(100vh-10rem)]">
-              <div className="bg-white rounded-lg overflow-hidden shadow-sm">
+              <div className="bg-white rounded-lg overflow-hidden">
                 {/* Main Image with Zoom */}
                 <div
                   className="aspect-square relative bg-gray-100 overflow-hidden"
@@ -308,7 +308,7 @@ export default function CardDetailProduct() {
                           : "border-transparent text-gray-500"
                       }`}
                     >
-                      Detail Produk
+                      Spesifikasi Produk
                     </button>
                     <button
                       onClick={() => setActiveTab("info")}
@@ -318,7 +318,7 @@ export default function CardDetailProduct() {
                           : "border-transparent text-gray-500"
                       }`}
                     >
-                      Info Penting
+                      Informasi Produk
                     </button>
                   </div>
 

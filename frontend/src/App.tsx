@@ -29,6 +29,7 @@ import Users from "./pages/Users/User";
 import EditUser from "./pages/Users/EditUser";
 import HomeToko from "./pages/HomeToko";
 import CardDetailProduct from "./components/ui-toko/CardDetailProduct";
+import CartProduct from "./components/ui-toko/CartProduct";
 
 export default function App() {
   return (
@@ -40,11 +41,13 @@ export default function App() {
           <Route path="/login" element={<SignIn />} />
           <Route path="/register" element={<SignUp />} />
           {/* Dashboard Layout */}
-          <Route element={
-            <ProtectedRoute>
-              <AppLayout />
-            </ProtectedRoute>
-            }>
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
             {/* Dashbord admin homepage */}
             <Route path="/dashboard" element={<Home />} />
             {/* Category Page */}
@@ -61,21 +64,27 @@ export default function App() {
             <Route path="/brand" element={<Merk />} />
             <Route path="/create-brand" element={<CreateMerk />} />
             <Route path="/edit-brand/:id" element={<EditMerk />} />
-            
+
             {/* Product Page */}
-            <Route path="/product" element={<Produk />} />  
+            <Route path="/product" element={<Produk />} />
             <Route path="/create-product" element={<CreateProduct />} />
             <Route path="/edit-product/:id" element={<EditProduct />} />
 
             {/* Product Image Page */}
-            <Route path="/image-product" element={<ProdukImage />} />  
-            <Route path="/create-image-product" element={<CreateProdukImage />} />
-            <Route path="/edit-image-product/:id" element={<EditProdukImage />} />
+            <Route path="/image-product" element={<ProdukImage />} />
+            <Route
+              path="/create-image-product"
+              element={<CreateProdukImage />}
+            />
+            <Route
+              path="/edit-image-product/:id"
+              element={<EditProdukImage />}
+            />
 
             {/* Roles page */}
             <Route path="/roles" element={<Roles />} />
-            <Route path="/create-roles" element={ <CreateRoles /> } />
-            <Route path="/edit-roles/:id" element={ <EditRoles /> } />
+            <Route path="/create-roles" element={<CreateRoles />} />
+            <Route path="/edit-roles/:id" element={<EditRoles />} />
 
             {/* User page */}
             <Route path="/users" element={<Users />} />
@@ -84,11 +93,14 @@ export default function App() {
           <Route>
             <Route path="/user-profile" element={<UserProfiles />} />
           </Route>
-          
+
+          {/* Route halaman toko */}
           <Route>
-            <Route index path="/" element={ <HomeToko />} />
-            <Route path="/detail-produk" element={ <CardDetailProduct />} />
+            <Route index path="/" element={<HomeToko />} />
+            <Route path="/detail-produk" element={<CardDetailProduct />} />
+            <Route path="/cart-produk" element={<CartProduct />} />
           </Route>
+          {/* Route halaman toko end */}
 
           {/* Fallback Route If Not Found Page */}
           <Route path="*" element={<NotFound />} />
