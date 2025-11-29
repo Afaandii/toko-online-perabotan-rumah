@@ -24,6 +24,7 @@ Route::group([], function () {
     Route::get('/v1/product', [ProductController::class, 'index']);
     Route::get('/v1/product-image', [ProductImageController::class, 'index']);
     Route::get('/v1/product-detail-shop/{nama}/{id}', [ProductController::class, 'getDataShop']);
+    Route::get('/products/search', [ProductController::class, 'search']);
     // callback status dari midtrans
     Route::post('/v1/payment-notification', [PaymentsController::class, 'handleNotification']);
 });
