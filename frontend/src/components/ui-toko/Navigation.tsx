@@ -90,9 +90,9 @@ export default function Navigation() {
   return (
     <>
       {/* Desktop Navigation (fixed saat discroll) */}
-      <div className="hidden md:block fixed top-0 left-0 right-0 z-50">
-        <div className="bg-green-600 text-white px-6 py-1">
-          <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
+      <div className="hidden md:block fixed top-0 left-0 right-0 z-50 shadow-sm">
+        <div className="bg-white text-gray-500 px-7 py-1">
+          <div className="max-w-[1190px] mx-auto flex items-center justify-between text-sm">
             <div className="flex items-center gap-6">
               <button className="flex items-center gap-2 hover:opacity-80">
                 <FiDownload size={16} />
@@ -102,13 +102,13 @@ export default function Navigation() {
           </div>
         </div>
 
-        <div className="bg-green-600 text-white px-6 py-2">
-          <div className="max-w-7xl mx-auto flex items-center gap-6">
+        <div className="bg-white text-gray-500 px-7">
+          <div className="max-w-[1190px] mx-auto flex items-center gap-7">
             {/* Logo */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center">
               <a href="/">
                 <img
-                  src="/images/backend-logo.png"
+                  src="/images/goshop.png"
                   alt="Goshop"
                   className="w-36 h-10"
                 />
@@ -116,7 +116,7 @@ export default function Navigation() {
             </div>
 
             {/* Search Bar */}
-            <div className="flex-1 max-w-3xl">
+            <div className="flex-1 max-w-3xl pt-2">
               <div className="relative flex items-center rounded-lg overflow-hidden bg-white border border-blue-200">
                 <input
                   type="text"
@@ -124,7 +124,7 @@ export default function Navigation() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   placeholder="Cari produk"
-                  className="flex-1 px-4 py-2 text-gray-700 placeholder-gray-500 focus:outline-none rounded-l-lg"
+                  className="flex-1 px-4 py-2.5 text-gray-700 placeholder-gray-500 focus:outline-none rounded-l-lg"
                 />
                 <button
                   onClick={handleSearch}
@@ -145,7 +145,7 @@ export default function Navigation() {
                   </span>
                 )}
               </a>
-              <div className="w-0.5 bg-white h-8 mx-3"></div>
+              <div className="w-[1.3px] bg-gray-300 h-8 mx-3"></div>
 
               {/* Conditional rendering for auth buttons or user dropdown */}
               {isLoggedIn ? (
@@ -154,13 +154,13 @@ export default function Navigation() {
                 <>
                   <a
                     href="/login"
-                    className="px-6 py-1 border-2 font-medium border-white rounded-full hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-colors"
+                    className="px-6 py-1 border-2 font-medium text-green-600 border-green-600 rounded-full hover:bg-green-500 hover:text-white hover:border-green-500 transition-colors"
                   >
                     Masuk
                   </a>
                   <a
                     href="/register"
-                    className="px-6 py-1 bg-white font-medium text-green-600 rounded-full hover:bg-gray-100 transition-colors"
+                    className="px-6 py-1 bg-green-600 font-medium text-white rounded-full transition-colors"
                   >
                     Daftar
                   </a>
@@ -170,8 +170,8 @@ export default function Navigation() {
           </div>
         </div>
 
-        <div className="bg-green-600 text-white px-6 py-1">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="bg-white text-gray-500 px-6 py-1">
+          <div className="max-w-[1190px] mx-auto flex items-center justify-between">
             <div className="flex items-center gap-6">
               <button className="flex items-center gap-2 hover:opacity-80">
                 <FiGrid size={20} />
@@ -185,27 +185,29 @@ export default function Navigation() {
       {/* Mobile Navigation (md ke bawah) */}
       <div className="md:hidden">
         {/* Top Fixed Bar */}
-        <div className="fixed top-0 left-0 right-0 bg-green-600 text-white px-4 py-3 z-50">
+        <div className="fixed top-0 left-0 right-0 bg-white text-gray-800 px-2 py-3 z-50 shadow-sm">
           <div className="flex items-center justify-between gap-2">
             {/* Logo */}
             <div className="shrink-0">
-              <img
-                src="/images/no-teks-logo.png"
-                alt="Goshop"
-                className="w-12 h-10 mr-2"
-              />
+              <a href="/">
+                <img
+                  src="/images/no-teks-logo.png"
+                  alt="Goshop"
+                  className="w-10 h-10"
+                />
+              </a>
             </div>
 
             {/* Search Bar - Mengisi ruang */}
             <div className="flex-1 max-w-xs">
-              <div className="relative flex items-center rounded-lg overflow-hidden bg-white">
+              <div className="relative flex items-center rounded-lg overflow-hidden bg-white border border-blue-200">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()} // TAMBAHKAN onKeyDown
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   placeholder="Cari produk"
-                  className="flex-1 px-3 py-1.5 text-gray-700 text-sm placeholder-gray-500 focus:outline-none"
+                  className="flex-1 px-2 py-2 text-gray-800 text-sm placeholder-gray-500 focus:outline-none rounded-l-lg"
                 />
                 <button
                   onClick={handleSearch}
@@ -220,7 +222,7 @@ export default function Navigation() {
             {isLoggedIn ? (
               <a
                 href="/cart-produk"
-                className="flex flex-col items-center relative ml-2"
+                className="flex flex-col items-center relative"
               >
                 <FiShoppingCart size={26} />
                 {cartCount > 0 && (
@@ -232,7 +234,7 @@ export default function Navigation() {
             ) : (
               <a
                 href="/login"
-                className="ml-2 text-sm font-medium px-3 py-1.5 border-2 border-white rounded-full whitespace-nowrap"
+                className="text-sm font-medium px-3 py-1.5 border-2 border-green-600 rounded-full whitespace-nowrap"
               >
                 Masuk
               </a>
@@ -257,7 +259,7 @@ export default function Navigation() {
           {/* Conditional rendering for account button */}
           {isLoggedIn ? (
             <a
-              href="/cart-produk"
+              href="/user-profile"
               className="flex flex-col items-center text-gray-600"
             >
               <FiUser size={24} />

@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaExchangeAlt, FaDatabase, FaCog, FaChevronDown, FaEllipsisH } from "react-icons/fa";
+import {
+  FaExchangeAlt,
+  FaDatabase,
+  FaCog,
+  FaChevronDown,
+  FaEllipsisH,
+} from "react-icons/fa";
 import { useSidebar } from "../context/SidebarContext";
 import SidebarWidget from "./SidebarWidget";
 
@@ -56,67 +62,71 @@ const AppSidebar: React.FC = () => {
   );
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const isActive = useCallback((path: string) => {
-    if (path === "/") {
-      return location.pathname === "/";
-    }
+  const isActive = useCallback(
+    (path: string) => {
+      if (path === "/") {
+        return location.pathname === "/";
+      }
 
-    // Untuk path khusus seperti /category, kita buat logika khusus
-    if (path === "/category") {
-      return (
-        location.pathname.startsWith("/category") ||
-        location.pathname.startsWith("/edit-category") ||
-        location.pathname.startsWith("/create-category")
-      );
-    }
-    if (path === "/type"){
-      return (
-        location.pathname.startsWith("/type") ||
-        location.pathname.startsWith("/edit-type") ||
-        location.pathname.startsWith("/create-type")
-      );
-    }
-    if (path === "/brand"){
-      return (
-        location.pathname.startsWith("/brand") ||
-        location.pathname.startsWith("/edit-brand") ||
-        location.pathname.startsWith("/create-brand")
-      );
-    }
-    if (path === "/product"){
-      return (
-        location.pathname.startsWith("/product") ||
-        location.pathname.startsWith("/edit-product") ||
-        location.pathname.startsWith("/create-product")
-      );
-    }
-    if (path === "/image-product"){
-      return (
-        location.pathname.startsWith("/image-product") ||
-        location.pathname.startsWith("/edit-image-product") ||
-        location.pathname.startsWith("/create-image-product")
-      );
-    }
-    if (path === "/roles"){
-      return (
-        location.pathname.startsWith("/roles") ||
-        location.pathname.startsWith("/edit-roles") ||
-        location.pathname.startsWith("/create-roles")
-      );
-    }
-    if (path === "/users"){
-      return (
-        location.pathname.startsWith("/users") ||
-        location.pathname.startsWith("/edit-users") ||
-        location.pathname.startsWith("/create-users")
-      );
-    }
+      // Untuk path khusus seperti /category, kita buat logika khusus
+      if (path === "/category") {
+        return (
+          location.pathname.startsWith("/category") ||
+          location.pathname.startsWith("/edit-category") ||
+          location.pathname.startsWith("/create-category")
+        );
+      }
+      if (path === "/type") {
+        return (
+          location.pathname.startsWith("/type") ||
+          location.pathname.startsWith("/edit-type") ||
+          location.pathname.startsWith("/create-type")
+        );
+      }
+      if (path === "/brand") {
+        return (
+          location.pathname.startsWith("/brand") ||
+          location.pathname.startsWith("/edit-brand") ||
+          location.pathname.startsWith("/create-brand")
+        );
+      }
+      if (path === "/product") {
+        return (
+          location.pathname.startsWith("/product") ||
+          location.pathname.startsWith("/edit-product") ||
+          location.pathname.startsWith("/create-product")
+        );
+      }
+      if (path === "/image-product") {
+        return (
+          location.pathname.startsWith("/image-product") ||
+          location.pathname.startsWith("/edit-image-product") ||
+          location.pathname.startsWith("/create-image-product")
+        );
+      }
+      if (path === "/roles") {
+        return (
+          location.pathname.startsWith("/roles") ||
+          location.pathname.startsWith("/edit-roles") ||
+          location.pathname.startsWith("/create-roles")
+        );
+      }
+      if (path === "/users") {
+        return (
+          location.pathname.startsWith("/users") ||
+          location.pathname.startsWith("/edit-users") ||
+          location.pathname.startsWith("/create-users")
+        );
+      }
 
-    return (
-      location.pathname.startsWith(path) &&
-      (location.pathname.length === path.length || location.pathname[path.length] === "/")
-    );
-  }, [location.pathname]);
+      return (
+        location.pathname.startsWith(path) &&
+        (location.pathname.length === path.length ||
+          location.pathname[path.length] === "/")
+      );
+    },
+    [location.pathname]
+  );
 
   useEffect(() => {
     let submenuMatched = false;
@@ -196,8 +206,7 @@ const AppSidebar: React.FC = () => {
               {(isExpanded || isHovered || isMobileOpen) && (
                 <FaChevronDown
                   className={`ml-auto w-5 h-5 transition-transform duration-200 ${
-                    openSubmenu?.type === "main" &&
-                    openSubmenu?.index === index
+                    openSubmenu?.type === "main" && openSubmenu?.index === index
                       ? "rotate-180 text-brand-500"
                       : ""
                   }`}
@@ -312,14 +321,14 @@ const AppSidebar: React.FC = () => {
             <>
               <img
                 className="dark:hidden w-48"
-                src="/images/backend-logo.png"
+                src="/images/goshop.png"
                 alt="Logo"
                 width={150}
                 height={40}
               />
               <img
                 className="hidden dark:block w-48"
-                src="/images/backend-logo.png"
+                src="/images/goshop.png"
                 alt="Logo"
                 width={150}
                 height={40}

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useState, useEffect } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 interface CarouselSlide {
   id: number;
@@ -17,27 +17,27 @@ export default function Carousel() {
   const slides: CarouselSlide[] = [
     {
       id: 1,
-      title: 'MakinTENANG~',
-      subtitle: 'Gajian Anti Boros',
-      highlight: 'Diskon 50% s.d. Rp600rb*',
-      bgColor: 'from-green-700 via-green-600 to-green-500',
-      image: 'https://picsum.photos/800/600?random=1',
+      title: "MakinTENANG~",
+      subtitle: "Gajian Anti Boros",
+      highlight: "Diskon 50% s.d. Rp600rb*",
+      bgColor: "from-green-700 via-green-600 to-green-500",
+      image: "https://picsum.photos/800/600?random=1",
     },
     {
       id: 2,
-      title: 'NEW YEAR JOY',
-      subtitle: 'Belanja Hemat Tahun Baru',
-      highlight: 'Diskon hingga 74%',
-      bgColor: 'from-blue-700 via-blue-600 to-blue-500',
-      image: 'https://picsum.photos/800/600?random=2',
+      title: "NEW YEAR JOY",
+      subtitle: "Belanja Hemat Tahun Baru",
+      highlight: "Diskon hingga 74%",
+      bgColor: "from-blue-700 via-blue-600 to-blue-500",
+      image: "https://picsum.photos/800/600?random=2",
     },
     {
       id: 3,
-      title: 'FLASH SALE',
-      subtitle: 'Kejutan Setiap Hari',
-      highlight: 'Diskon s.d. 80%',
-      bgColor: 'from-red-700 via-red-600 to-red-500',
-      image: 'https://picsum.photos/800/600?random=3',
+      title: "FLASH SALE",
+      subtitle: "Kejutan Setiap Hari",
+      highlight: "Diskon s.d. 80%",
+      bgColor: "from-red-700 via-red-600 to-red-500",
+      image: "https://picsum.photos/800/600?random=3",
     },
   ];
 
@@ -70,7 +70,7 @@ export default function Carousel() {
   };
 
   return (
-    <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 py-6">
+    <div className="relative w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-6">
       <div className="relative overflow-hidden rounded-2xl shadow-2xl">
         {/* Slides Container */}
         <div
@@ -80,14 +80,28 @@ export default function Carousel() {
           {slides.map((slide) => (
             <div key={slide.id} className="min-w-full relative">
               {/* Gradient Background */}
-              <div className={`bg-linear-to-r ${slide.bgColor} relative overflow-hidden`}>
+              <div
+                className={`bg-linear-to-r ${slide.bgColor} relative overflow-hidden`}
+              >
                 {/* Decorative Elements (hanya untuk desktop/tablet) */}
-                <div className="absolute top-8 left-12 text-4xl opacity-70 hidden sm:block">🌙</div>
-                <div className="absolute top-16 left-24 text-2xl opacity-60 hidden sm:block">✨</div>
-                <div className="absolute top-12 left-32 text-2xl opacity-50 hidden sm:block">✨</div>
-                <div className="absolute bottom-20 left-20 text-3xl opacity-40 rotate-12 hidden sm:block">🍃</div>
-                <div className="absolute top-1/3 right-1/4 text-2xl opacity-30 hidden sm:block">💳</div>
-                <div className="absolute bottom-32 right-1/3 text-3xl opacity-40 -rotate-12 hidden sm:block">🍃</div>
+                <div className="absolute top-8 left-12 text-4xl opacity-70 hidden sm:block">
+                  🌙
+                </div>
+                <div className="absolute top-16 left-24 text-2xl opacity-60 hidden sm:block">
+                  ✨
+                </div>
+                <div className="absolute top-12 left-32 text-2xl opacity-50 hidden sm:block">
+                  ✨
+                </div>
+                <div className="absolute bottom-20 left-20 text-3xl opacity-40 rotate-12 hidden sm:block">
+                  🍃
+                </div>
+                <div className="absolute top-1/3 right-1/4 text-2xl opacity-30 hidden sm:block">
+                  💳
+                </div>
+                <div className="absolute bottom-32 right-1/3 text-3xl opacity-40 -rotate-12 hidden sm:block">
+                  🍃
+                </div>
 
                 {/* Glowing Effects (hanya untuk desktop/tablet) */}
                 <div className="absolute top-0 right-1/4 w-96 h-96 bg-yellow-300 rounded-full blur-3xl opacity-20 hidden sm:block"></div>
@@ -107,11 +121,15 @@ export default function Carousel() {
 
                     <div className="inline-block">
                       <div className="bg-yellow-300 text-gray-900 px-4 sm:px-6 py-2 sm:py-3 rounded-xl -rotate-1 shadow-xl">
-                        <p className="text-xl sm:text-2xl font-bold">{slide.highlight}</p>
+                        <p className="text-xl sm:text-2xl font-bold">
+                          {slide.highlight}
+                        </p>
                       </div>
                     </div>
 
-                    <p className="text-xs sm:text-sm opacity-90 pt-2">*S&K Berlaku</p>
+                    <p className="text-xs sm:text-sm opacity-90 pt-2">
+                      *S&K Berlaku
+                    </p>
                   </div>
 
                   {/* Right Content - Image Mockup */}
@@ -162,8 +180,8 @@ export default function Carousel() {
               onClick={() => goToSlide(index)}
               className={`transition-all duration-300 rounded-full ${
                 currentSlide === index
-                  ? 'w-8 h-2 bg-white'
-                  : 'w-2 h-2 bg-white/50 hover:bg-white/75'
+                  ? "w-8 h-2 bg-white"
+                  : "w-2 h-2 bg-white/50 hover:bg-white/75"
               }`}
               aria-label={`Pergi ke slide ${index + 1}`}
             />
