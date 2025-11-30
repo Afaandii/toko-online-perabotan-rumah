@@ -234,9 +234,13 @@ class AuthenticateController extends Controller
         $validated = $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
+            'remember_me' => 'sometimes|boolean',
         ]);
 
-        if (!Auth::attempt($validated)) {
+        $credentials = $request->only('email', 'password');
+        $remember = $validated['remember_me'] ?? null;
+
+        if (!Auth::attempt($credentials, $remember)) {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'Invalid email or password',
@@ -246,6 +250,13 @@ class AuthenticateController extends Controller
 
         $user = Auth::user();
         $token = $user->createToken('api_token')->plainTextToken;
+
+        if ($remember) {
+            $user->remember_token = $token;
+        } else {
+            $user->remember_token = null;
+        }
+        $user->save();
 
         return response()->json([
             'status'  => 'success',
@@ -262,7 +273,13 @@ class AuthenticateController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
+
+        if ($user->remember_token) {
+            $user->remember_token = null;
+            $user->save();
+        }
 
         return response()->json([
             'status'  => 'success',
