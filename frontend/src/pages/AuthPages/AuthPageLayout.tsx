@@ -21,7 +21,7 @@ export default function AuthLayout({
                 <img
                   width={231}
                   height={48}
-                  src="/images/backend-logo.png"
+                  src="/images/goshop.png"
                   alt="Logo"
                 />
               </Link>
